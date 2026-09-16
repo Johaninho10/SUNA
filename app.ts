@@ -6,6 +6,8 @@ import type { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import authRouter from "./routes/auth.routes.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
+import userRouter from "./routes/user.routes.js";
+import adminRouter from "./routes/admin.routes.js";
 
 const app = express();
 
@@ -27,6 +29,8 @@ app.get(
 );
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/admin", adminRouter);
 app.use(errorMiddleware);
 
 if (process.env.NODE_ENV === "DEVELOPMENT") {
