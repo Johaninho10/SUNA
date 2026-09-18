@@ -3,6 +3,7 @@ import prisma from "../lib/prisma.js";
 import asyncHandler from "express-async-handler";
 import { User } from "../generated/prisma/client.js";
 import validator from "validator";
+import cloudinary from "../lib/cloudinary.js";
 
 declare global {
   namespace Express {
@@ -50,6 +51,7 @@ export const updateProfile = asyncHandler(
       phone?: string;
       country?: string;
       city?: string;
+      avatar_url?: string;
     } = {};
 
     if (full_name) {
@@ -100,6 +102,17 @@ export const updateProfile = asyncHandler(
 
     if (!user) {
       throw new Error();
+    }
+
+    const file = req.file;
+
+    if (file) {
+      const result = await cloudinary.uploader.upload(file.path, {
+        resource_type: "image",
+        folder: "avatars",
+      });
+
+      data.avatar_url = result.secure_url;
     }
 
     const newUser = await prisma.user.update({
