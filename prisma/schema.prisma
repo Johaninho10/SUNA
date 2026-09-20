@@ -32,7 +32,7 @@ model Service {
   slug          String
   title         String
   description   String
-  icon          String
+  icon          String?
   is_active     Boolean  @default(true)
   display_order Int
   created_at    DateTime @default(now())

@@ -46,11 +46,6 @@ export const createService = asyncHandler(
       throw new Error("La description est requise");
     }
 
-    if (!icon || !icon.trim()) {
-      res.status(400);
-      throw new Error("L'icone est requise");
-    }
-
     if (display_order === undefined) {
       res.status(400);
       throw new Error("L'ordre d'affichage est requis");
@@ -71,14 +66,25 @@ export const createService = asyncHandler(
       throw new Error("L'ordre d'affichage doit etre un entier");
     }
 
+    const data: {
+      slug: string;
+      title: string;
+      description: string;
+      icon?: string;
+      display_order: number;
+    } = {
+      slug: slug.trim(),
+      title: title.trim(),
+      description: description.trim(),
+      display_order,
+    };
+
+    if (icon.trim()) {
+      data.icon = icon.trim();
+    }
+
     const service = await prisma.service.create({
-      data: {
-        slug: slug.trim(),
-        title: title.trim(),
-        description: description.trim(),
-        icon: icon.trim(),
-        display_order,
-      },
+      data,
     });
 
     res.status(201).json({
