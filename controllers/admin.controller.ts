@@ -79,7 +79,7 @@ export const createService = asyncHandler(
       display_order,
     };
 
-    if (icon.trim()) {
+    if (icon?.trim()) {
       data.icon = icon.trim();
     }
 
@@ -141,7 +141,7 @@ export const updateService = asyncHandler(
       data.description = description;
     }
 
-    if (icon.trim()) {
+    if (icon?.trim()) {
       data.icon = icon.trim();
     }
 
