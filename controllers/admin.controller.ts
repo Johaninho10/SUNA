@@ -141,12 +141,8 @@ export const updateService = asyncHandler(
       data.description = description;
     }
 
-    if (icon) {
-      if (!icon.trim()) {
-        res.status(400);
-        throw new Error("L'icone est requise");
-      }
-      data.icon = icon;
+    if (icon.trim()) {
+      data.icon = icon.trim();
     }
 
     if (is_active !== undefined) {
